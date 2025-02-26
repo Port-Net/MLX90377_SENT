@@ -22,6 +22,7 @@ public:
     S_MODE_RAW,
   };
   MLX90377_SENT(gpio_num_t pin, uint8_t _tick_time_us = 3);
+  MLX90377_SENT(uint8_t pin, uint8_t _tick_time_us = 3);
 
   bool begin(uint16_t ticks_per_rev = 4096, int32_t clip_min = INT32_MIN, int32_t clip_max = INT32_MAX);
 

@@ -13,12 +13,15 @@
 MLX90377_SENT::MLX90377_SENT(gpio_num_t pin, uint8_t tick_time_us) : RMT_SENT_RECEIVER(pin, tick_time_us) {
 }
 
+MLX90377_SENT::MLX90377_SENT(uint8_t pin, uint8_t tick_time_us) : RMT_SENT_RECEIVER((gpio_num_t)pin, tick_time_us) {
+}
+
 
 bool MLX90377_SENT::begin(uint16_t ticks_per_rev, int32_t clip_min, int32_t clip_max) {
   _ticks_per_rev = ticks_per_rev;
   _clip_min = clip_min;
   _clip_max = clip_max;
-  return true;
+  return RMT_SENT_RECEIVER::begin();
 }
 
 void MLX90377_SENT::setTicksPerRev(uint16_t ticks) {
