@@ -60,6 +60,7 @@ float MLX90377_SENT::getAngle(Angle_Mode_t type) {
       break;
     case A_MODE_RAW:
       value = _angle;
+      break;
     case A_MODE_SENSOR:
       value = _raw_angle;
       break;
@@ -136,7 +137,6 @@ uint32_t MLX90377_SENT::getLastTemperatureTs() {
   return _last_temperature_ts;
 }
 
-
 bool MLX90377_SENT::processData() {
   uint32_t now_us = micros();
   uint8_t ct = _nibbles[3] << 4 | _nibbles[4];
@@ -154,19 +154,22 @@ bool MLX90377_SENT::processData() {
     return false;
   }
   _raw_angle = _nibbles[0] << 8 | _nibbles[1] << 4 | _nibbles[2];
-  // ToDo: clip
-  int16_t delta_ticks = _raw_angle - _last_raw_angle;
-  uint32_t delta_t = now_us - _last_measurement_us;
-  if(delta_ticks > 2048) {
-    delta_ticks -= 4096;
+  if(_last_raw_angle != 0x7FFF) {
+    int16_t delta_ticks = _raw_angle - _last_raw_angle;
+    uint32_t delta_t = now_us - _last_measurement_us;
+    if(delta_ticks > 2048) {
+      delta_ticks -= 4096;
+    } else if(delta_ticks < -2048) {
+      delta_ticks += 4096;
+    }
+    _angle += delta_ticks * _direction;
+    if(_angle < _clip_min) {
+      _angle += (_clip_max - _clip_min + 1);
+    } else if(_angle > _clip_max) {
+      _angle -= (_clip_max - _clip_min + 1);
+    }
+    _speed = 10000000.0 * delta_ticks / delta_t * _direction; 
   }
-  _angle += delta_ticks * _direction;
-  if(_angle < _clip_min) {
-    _angle -= (_clip_max - _clip_min + 1);
-  } else if(_angle > _clip_max) {
-    _angle += (_clip_max - _clip_min + 1);
-  }
-  _speed = 10000000.0 * delta_ticks / delta_t * _direction; 
   _last_raw_angle = _raw_angle;
   _last_measurement_ts = millis();
   _last_measurement_us = now_us;

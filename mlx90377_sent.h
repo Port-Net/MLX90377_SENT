@@ -21,9 +21,25 @@ public:
     S_MODE_RPM,
     S_MODE_RAW,
   };
+
+  /**
+   * @brief Construct a new mlx90377 sent sensor object
+   * 
+   * @param pin connected IO
+   * @param _tick_time_us SENT tick time, defaults to 3µs
+   */
   MLX90377_SENT(gpio_num_t pin, uint8_t _tick_time_us = 3);
   MLX90377_SENT(uint8_t pin, uint8_t _tick_time_us = 3);
 
+  /**
+   * @brief iitialize the sensor
+   * 
+   * @param ticks_per_rev can be used to apply rear ratio
+   * @param clip_min in sensor ticks. Used to set a lower limit of angle, if lower go to clip_max
+   * @param clip_max in sensor ticks. Used to set a upper limit of angle, if higher go to clip_min
+   * @return true on success
+   * @return false on error
+   */
   bool begin(uint16_t ticks_per_rev = 4096, int32_t clip_min = INT32_MIN, int32_t clip_max = INT32_MAX);
 
   /**
@@ -35,28 +51,95 @@ public:
    */
   void setTicksPerRev(uint16_t ticks_per_rev);
   uint16_t getTicksPerRev();
+
   /**
-   * @brief Set the Clipping Range
+   * @brief Set the clipping Range
    * i.e. 0 to 4095 to get some kind of turn encoder
    *   or  -gear_ratio * 4096 to gear_ratio * 4096
    * @param min 
    * @param max 
    */
   void setClipRange(int32_t min, int32_t max);
+
+  /**
+   * @brief Set the direction the sensor is counting
+   * default is CW
+   * @param direction as MLX90377_SENT::CW/CCW
+   */
   void setDirection(int8_t direction);
   int8_t getDirection();
 
+  /**
+   * @brief Get the raw angle of the sensor
+   * 
+   * @return uint16_t raw sensor value
+   */
   uint16_t getRawAngle();
-  float getAngle(Angle_Mode_t type = A_MODE_RADIANS);
-  void setAngle(float angle = 0, Angle_Mode_t type = A_MODE_RADIANS);
 
+  /**
+   * @brief Get the current angle after calculations
+   * one can select the angle in different formats by using mode, default is radians
+   * @param mode can be A_MODE_RADIANS, A_MODE_DEGREES, A_MODE_RAW, A_MODE_SENSOR
+   * @return float angle
+   */
+  float getAngle(Angle_Mode_t mode = A_MODE_RADIANS);
+
+  /**
+   * @brief Set the angle 
+   * 
+   * @param angle value to set the angle to
+   * @param mode can be A_MODE_RADIANS, A_MODE_DEGREES, A_MODE_RAW
+   */
+  void setAngle(float angle = 0, Angle_Mode_t mode = A_MODE_RADIANS);
+
+  /**
+   * @brief Get the Serial Status of the sensor (serial id 1)
+   * usualy 0x800 in working mode
+   * @return uint16_t serial status
+   */
   uint16_t getSerialStatus();
+
+  /**
+   * @brief Get the temperature of the sensor (serial id 0x23)
+   * in °C
+   * @return float temperature
+   */
   float getTemperature();
+
+  /**
+   * @brief Get the timestamp in millis the last measurement has arrived
+   * 
+   * @return uint32_t 
+   */
   uint32_t getLastMeasurementTs();
+
+  /**
+   * @brief Get the timestamp in millis the last serial status has arrived
+   * 
+   * @return uint32_t 
+   */
   uint32_t getLastSerialStatusTs();
+
+  /**
+   * @brief Get the timestamp in millis the last temperature has arrived
+   * 
+   * @return uint32_t 
+   */
   uint32_t getLastTemperatureTs();
 
+  /**
+   * @brief Get the angular speed which is calculated on measurement arrival
+   * one can select the speed in different formats by using mode, default is radians/s
+   * @param mode can be S_MODE_RADIANS, S_MODE_DEGREES, S_MODE_RPM
+   * @return float speed
+   */
   float getAngularSpeed(Speed_Mode_t mode = S_MODE_RADIANS);
+
+  /**
+   * @brief Get the revolutions 
+   * based on the setting on ticks per rev
+   * @return int32_t 
+   */
   int32_t getRevolutions();
 
   /**
@@ -74,7 +157,7 @@ protected:
   uint32_t _last_serial_status_ts = 0;
   uint32_t _last_temperature_ts = 0;
   uint32_t _last_measurement_us = 0;
-  uint16_t  _last_raw_angle  = 0;
+  uint16_t  _last_raw_angle  = 0x7FFF;
   int32_t  _angle = 0;
   float _speed = 0;
   uint16_t _raw_angle = 0;

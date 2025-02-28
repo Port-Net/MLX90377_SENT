@@ -1,6 +1,6 @@
 {
   "name": "MLX90377_SENT",
-  "version": "0.1.1",
+  "version": "0.2.1",
   "description": "Library for MLX90377 magnetic encoder",
   "keywords": "MLX90377 SENT RMT J2716",
   "repository": {
@@ -23,7 +23,7 @@
     {
       "owner": "chris-42",
       "name": "rmt_SENT",
-      "version": "^0.1.4",
+      "version": "^0.2.2",
       "platforms": "espressif32"
     }
   ]
