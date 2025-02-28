@@ -7,7 +7,7 @@
 //  Example for using MLX90377ADB-x3x rotation sensor based on rmt_sent receiver
 
 #include <Arduino.h>
-#include "mlx90377_sent.h"
+#include "MLX9377_SENT.h"
 
 // create the objects using default tick time 3ms
 MLX90377_SENT mlx90377(GPIO_NUM_38);

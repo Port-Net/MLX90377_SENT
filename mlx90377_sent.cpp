@@ -7,7 +7,7 @@
 //     URL: https://github.com/RobTillaart/AS5600
 
 
-#include "mlx90377_sent.h"
+#include "MLX90377_SENT.h"
 
 
 MLX90377_SENT::MLX90377_SENT(gpio_num_t pin, uint8_t tick_time_us) : RMT_SENT_RECEIVER(pin, tick_time_us) {
