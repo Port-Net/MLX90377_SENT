@@ -3,7 +3,7 @@
 
 
 #include "Arduino.h"
-#include "rmt_sent_receiver.h"
+#include "rmt_SENT.h"
 
 class MLX90377_SENT : public RMT_SENT_RECEIVER {
 public:
