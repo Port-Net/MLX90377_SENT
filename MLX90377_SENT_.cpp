@@ -1,10 +1,10 @@
 //
-//    FILE: AS56000.cpp
-//  AUTHOR: Rob Tillaart
-// VERSION: 0.6.4
-// PURPOSE: Arduino library for AS5600 magnetic rotation meter
-//    DATE: 2022-05-28
-//     URL: https://github.com/RobTillaart/AS5600
+//    FILE: MLX90377_SENT.cpp
+//  AUTHOR:  Chrisrian Port
+// VERSION: 0.3.1
+// PURPOSE: Arduino library for MLX90377 magnetic rotation encoder IC
+//    DATE: 2025-03-10
+//     URL: https://github.com/Port-Net/MLX90377_SENT
 
 
 #include "MLX90377_SENT.h"

@@ -1,3 +1,11 @@
+//
+//    FILE: MLX90377_SENT.h
+//  AUTHOR:  Chrisrian Port
+// VERSION: 0.3.1
+// PURPOSE: Arduino library for MLX90377 magnetic rotation encoder IC
+//    DATE: 2025-03-10
+//     URL: https://github.com/Port-Net/MLX90377_SENT
+
 #ifndef MLX90377_SENT_H
 #define MLX90377_SENT_H
 
