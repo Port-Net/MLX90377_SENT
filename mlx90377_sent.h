@@ -150,7 +150,7 @@ public:
   void setRevolutions(int32_t revolutions = 0);
 
 protected:
-  bool processData() override;
+  bool processData(uint32_t timestamp) override;
   bool processSerial(uint8_t msg_id, uint16_t msg_data) override;
   int8_t  _direction = CW;
   uint32_t _last_measurement_ts = 0;

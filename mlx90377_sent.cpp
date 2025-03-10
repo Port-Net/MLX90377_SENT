@@ -137,8 +137,8 @@ uint32_t MLX90377_SENT::getLastTemperatureTs() {
   return _last_temperature_ts;
 }
 
-bool MLX90377_SENT::processData() {
-  uint32_t now_us = micros();
+bool MLX90377_SENT::processData(uint32_t timestamp) {
+  uint32_t received_us = timestamp;
   uint8_t ct = _nibbles[3] << 4 | _nibbles[4];
   _last_counter++;
   if(!_packet_count) {
