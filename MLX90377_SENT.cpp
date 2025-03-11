@@ -156,7 +156,7 @@ bool MLX90377_SENT::processData(uint32_t timestamp) {
   _raw_angle = _nibbles[0] << 8 | _nibbles[1] << 4 | _nibbles[2];
   if(_last_raw_angle != 0x7FFF) {
     int16_t delta_ticks = _raw_angle - _last_raw_angle;
-    uint32_t delta_t = now_us - _last_measurement_us;
+    uint32_t delta_t = received_us - _last_measurement_us;
     if(delta_ticks > 2048) {
       delta_ticks -= 4096;
     } else if(delta_ticks < -2048) {
@@ -172,7 +172,7 @@ bool MLX90377_SENT::processData(uint32_t timestamp) {
   }
   _last_raw_angle = _raw_angle;
   _last_measurement_ts = millis();
-  _last_measurement_us = now_us;
+  _last_measurement_us = received_us;
   return true;
 }
 
